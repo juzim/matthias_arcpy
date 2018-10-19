@@ -1,0 +1,65 @@
+# -*-coding: UTF-8-*-
+
+"""
+     Autor:         Matthias Herbein
+     Erstellt:      04.10.2018
+     Ueberarbeitet: heute
+     Py Version:     3.6
+     Beschreibung: .
+"""
+
+# Import system modules
+import arcpy
+import sys
+import os
+
+print('Verarbeitung startet')
+# Umgebungseinstellungen
+arcpy.env.overwriteOutput = 1
+arcpy.env.parallelProcessingFactor = '100'
+arcpy.env.workspace = r'C:\Users\Matthias\Documents\UNIGIS\optionalesmodulPYTHON\omPy_Daten\Salzburg.gdb'
+
+
+# Variablen
+eingabePunktFC = 'alpenv_huetten'
+ausgabeFC = 'testlauffuenf'
+# ausgabeFC = os.path.join(arcpy.env.workspace, 'testlauf' + '.shp')
+has_z = 'ENABLED'
+has_m = 'DISABLED'
+# eingabePolyFC = sbggde
+print('Umgebungseinstellungen und Variablen wurden gelesen')
+"""
+verschiebungRechtswert = input('Um wie viele Meter soll der Rechtswert der Punkte geandert werden? Fuer eine '
+                               'Verschiebung nach Westen muss dem Wert ein Minus vorangestellt werden. ')
+verschiebungHochwert = input('Um wie viele Meter soll der Hochwert der Punkte geandert werden? Fuer eine '
+                               'Verschiebung nach Sueden muss dem Wert ein Minus vorangestellt werden. ')
+"""
+
+verschiebungRechtswert = 13
+verschiebungHochwert = -3
+
+# Leere Geometrien erstellen um die Features der Datensaetze per Tool abzufragen
+ausgabeGeom = arcpy.Geometry()
+# Das CopyFeatures Tool gibt Auflistungen von Geometrien der Datensaetze zurueck,
+# wenn die Ausgabe auf eine leeres Geometry-Objekt verweist
+geometrieListe = arcpy.CopyFeatures_management(eingabePunktFC, ausgabeGeom)
+print('leere Geometrien wurden erstellt')
+ausgabeFC = arcpy.CreateFeatureclass_management(arcpy.env.workspace, ausgabeFC, "POINT")
+print('Ausgabe wurde erstellt')
+felder = ['SHAPE@X', 'SHAPE@Y']
+zeiger1 = arcpy.da.InsertCursor(ausgabeFC, felder)
+# zeiger2 = arcpy.da.SearchCursor(eingabePunktFC, felder)
+print('zeiger wurden erstellt. Verarbeitung startet')
+# Schleife zum Erstellen der neuen Eintraege in die Ausgabe FC
+for ic_row in zeiger1:
+    # Schleife innerhalb der Schleife; die Geometrien werden abgefragt
+    for geom_row in geometrieListe:
+        ic_row[0] = geom_row[0] + verschiebungRechtswert
+        ic_row[1] = geom_row[1] + verschiebungHochwert
+    zeiger1.insertRow(ic_row)
+print('Verschiebung der Punkte abgeschlossen.')
+del zeiger1
+del geometrieListe
+del ausgabeGeom
+del ic_row
+del geom_row
