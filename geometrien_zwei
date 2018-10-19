@@ -38,6 +38,25 @@ verschiebungHochwert = input('Um wie viele Meter soll der Hochwert der Punkte ge
 verschiebungRechtswert = 13
 verschiebungHochwert = -3
 
+# mit dem folgenden auskommentierten Code klappt es an sich. 
+# Das ist soweit ich die Aufgabe verstanden habe aber nicht das wie wir es machen sollen.
+# ich habe meinem Dozentan mal deswegen geschrieben.
+
+'''
+arcpy.CopyFeatures_management(eingabePunktFC, ausgabeFC)
+print('Kopie der der Eingabe wurde erstellt')
+felder = ['SHAPE@X', 'SHAPE@Y']
+zeiger = arcpy.da.UpdateCursor(ausgabeFC, felder)
+print('Zeiger wurde erstellt')
+for row in zeiger:
+    row[0] = row[0] + verschiebungRechtswert
+    row[1] = row[1] + verschiebungHochwert
+    zeiger.updateRow(row)
+print('Verschiebung der Rechtswerte abgeschlossen.')
+del zeiger
+del row
+'''
+
 # Leere Geometrien erstellen um die Features der Datensaetze per Tool abzufragen
 ausgabeGeom = arcpy.Geometry()
 # Das CopyFeatures Tool gibt Auflistungen von Geometrien der Datensaetze zurueck,
