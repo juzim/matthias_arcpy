@@ -72,9 +72,10 @@ print('zeiger wurden erstellt. Verarbeitung startet')
 # Schleife zum Erstellen der neuen Eintraege in die Ausgabe FC
 for ic_row in zeiger2:
     # Schleife innerhalb der Schleife; die Geometrien werden abgefragt
-    ic_row[0] = ic_row[0] + verschiebungRechtswert
-    ic_row[1] = ic_row[1] + verschiebungHochwert
-    zeiger1.insertRow(ic_row)
+    #ic_row[0] = ic_row[0] + verschiebungRechtswert
+    #ic_row[1] = ic_row[1] + verschiebungHochwert
+    new_row = (ic_row[0] + verschiebungRechtswert, ic_row[1] + verschiebungHochwert)
+    zeiger1.insertRow(new_row)
 print('Verschiebung der Punkte abgeschlossen.')
 del zeiger1
 del geometrieListe
