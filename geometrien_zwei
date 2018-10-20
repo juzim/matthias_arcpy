@@ -67,14 +67,13 @@ ausgabeFC = arcpy.CreateFeatureclass_management(arcpy.env.workspace, ausgabeFC, 
 print('Ausgabe wurde erstellt')
 felder = ['SHAPE@X', 'SHAPE@Y']
 zeiger1 = arcpy.da.InsertCursor(ausgabeFC, felder)
-# zeiger2 = arcpy.da.SearchCursor(eingabePunktFC, felder)
+zeiger2 = arcpy.da.SearchCursor(eingabePunktFC, felder)
 print('zeiger wurden erstellt. Verarbeitung startet')
 # Schleife zum Erstellen der neuen Eintraege in die Ausgabe FC
-for ic_row in zeiger1:
+for ic_row in zeiger2:
     # Schleife innerhalb der Schleife; die Geometrien werden abgefragt
-    for geom_row in geometrieListe:
-        ic_row[0] = geom_row[0] + verschiebungRechtswert
-        ic_row[1] = geom_row[1] + verschiebungHochwert
+    ic_row[0] = ic_row[0] + verschiebungRechtswert
+    ic_row[1] = ic_row[1] + verschiebungHochwert
     zeiger1.insertRow(ic_row)
 print('Verschiebung der Punkte abgeschlossen.')
 del zeiger1
