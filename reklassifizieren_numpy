@@ -1,0 +1,18 @@
+df['age'] = 2018 - df['birthdate']
+
+df['altersklasse'] = np.where(df['age'] <= 14, 1)
+df['altersklasse'] = np.where(df['age'] > 14 and df['age'] <= 19, 2)
+df['altersklasse'] = np.where(df['age'] > 19 and df['age'] <= 24, 3)
+df['altersklasse'] = np.where(df['age'] > 24 and df['age'] <= 34, 4)
+df['altersklasse'] = np.where(df['age'] > 34 and df['age'] <= 44, 5)
+df['altersklasse'] = np.where(df['age'] > 44 and df['age'] <= 54, 6)
+df['altersklasse'] = np.where(df['age'] > 54 and df['age'] <= 64, 7)
+df['altersklasse'] = np.where(df['age'] >= 65, 8)
+
+print(df.alterklasse.value_counts(normalize=True, dropna=False))
+
+'''
+scheint mir eleganter. funktioniert bisher aber nicht 
+ df['altersklasse'] = np.where(df['age'] <= 14, 1)
+ValueError: either both or neither of x and y should be given
+'''
