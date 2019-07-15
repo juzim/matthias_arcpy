@@ -1,0 +1,61 @@
+import pandas as pd
+import os
+import arcpy as ap
+
+
+
+os.chdir(r"C:\Users\Matthias\Documents\UNIGIS\Masterthesis\Statistik\Ergebnisse")
+
+df = pd.read_csv(r"C:\Users\Matthias\Documents\UNIGIS\Masterthesis\Statistik\Aufbereitung\03_befragung.csv",
+                 sep=";",
+                 decimal=",",
+                 header=None,
+                 names=["ID",
+                        "sex",
+                        "birthdate",
+                        "origin",
+                        "status",
+                        "destination",
+                        "accessibility",
+                        "mode_day",
+                        "casual_mode",
+                        "mode_main",
+                        "intermodal",
+                        "second_mode",
+                        "distance",
+                        "duration",
+                        "licence",
+                        "car",
+                        "par_orig",
+                        "po_cost",
+                        "par_dest",
+                        "pd_cost",
+                        "bike",
+                        "ticket",
+                        "dist_stop"])
+#Spalte Alter anlegen
+#Alter berechnen
+df['age'] = 2018 - df['birthdate']
+df['ageClass'] = 'default'
+
+def customClassifier8(row, src_col1, threshold1, threshold2, threshold3, threshold4, threshold5, threshold6, threshold7, output_col):
+    if row[src_col1] < threshold1:
+        row[output_col] = 0
+    elif row[src_col1] < threshold1 and row[src_col1] > threshold2:
+       row[output_col] = 1
+    elif row[src_col1] < threshold2 and row[src_col1] > threshold3:
+        row[output_col] = 2
+    elif row[src_col1] < threshold3 and row[src_col1] > threshold4:
+        row[output_col] = 3
+    elif row[src_col1] < threshold4 and row[src_col1] > threshold5:
+        row[output_col] = 4
+    elif row[src_col1] < threshold5 and row[src_col1] > threshold6:
+        row[output_col] = 5
+    elif row[src_col1] < threshold6 and row[src_col1] > threshold7:
+        row[output_col] = 6
+    else:
+        row[output_col] = 7
+
+    # Return the updated row
+    return row
+df.apply(customClassifier8(row,df['age'],14,19,24,32,44,54,64,df['ageClass']))
