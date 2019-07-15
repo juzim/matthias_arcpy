@@ -39,23 +39,23 @@ df['age'] = 2018 - df['birthdate']
 df['ageClass'] = 'default'
 
 def customClassifier8(row, src_col1, threshold1, threshold2, threshold3, threshold4, threshold5, threshold6, threshold7, output_col):
-    if row[src_col1] < threshold1:
+    if row[src_col1] <= threshold1:
         row[output_col] = 0
-    elif row[src_col1] < threshold1 and row[src_col1] > threshold2:
+    elif row[src_col1] < threshold1 and row[src_col1] <= threshold2:
        row[output_col] = 1
-    elif row[src_col1] < threshold2 and row[src_col1] > threshold3:
+    elif row[src_col1] < threshold2 and row[src_col1] <= threshold3:
         row[output_col] = 2
-    elif row[src_col1] < threshold3 and row[src_col1] > threshold4:
+    elif row[src_col1] < threshold3 and row[src_col1] <= threshold4:
         row[output_col] = 3
-    elif row[src_col1] < threshold4 and row[src_col1] > threshold5:
+    elif row[src_col1] < threshold4 and row[src_col1] <= threshold5:
         row[output_col] = 4
-    elif row[src_col1] < threshold5 and row[src_col1] > threshold6:
+    elif row[src_col1] < threshold5 and row[src_col1] <= threshold6:
         row[output_col] = 5
-    elif row[src_col1] < threshold6 and row[src_col1] > threshold7:
+    elif row[src_col1] < threshold6 and row[src_col1] <= threshold7:
         row[output_col] = 6
     else:
         row[output_col] = 7
 
     # Return the updated row
     return row
-df.apply(customClassifier8(row,df['age'],14,19,24,32,44,54,64,df['ageClass']))
+df.apply(customClassifier8, src_col1='age', thershold1=14, threshold2=19, threshold3=24, threshold4=32, threshold5=44, threshold6=54, threshold7=64, output_col='ageClass', axis=1)
