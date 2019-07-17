@@ -37,6 +37,11 @@ df = pd.read_csv(r"C:\Users\Matthias\Documents\UNIGIS\Masterthesis\Statistik\Auf
 #Alter berechnen
 df['age'] = 2018 - df['birthdate']
 df['altersklasse'] = 'default'
+'''
+ich glaube die Systhematik mit row beißt sich mit dem Konzept Dataframe. 
+Jedenfalls will die Funktion ja das Argument row übergeben bekommen. 
+bzw. so wie es jetzt da steht, sagt er es fehlen alle drei Argumente.
+'''
 
 def customClassifier8(row, src_col1, output_col):
     if row[src_col1] <= 14:
